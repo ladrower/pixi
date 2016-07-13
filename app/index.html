@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../node_modules/pixi.js/bin/pixi.js"></script>
+    <script src="./src/helpers/scaleToWindow.js"></script>
+</head>
+<body>
+
+
+<script>
+    (function () {
+        var renderer, stage, scale;
+
+        return function () {
+            initStyles();
+            initRenderer();
+            initStage();
+
+            document.body.appendChild(renderer.view);
+            renderer.render(stage);
+
+            initAutoScale();
+
+        }();
+
+        function initRenderer () {
+            renderer =  new PIXI.WebGLRenderer(256, 256);
+
+            renderer.backgroundColor = 0x061639;
+
+            renderer.view.style.position = "absolute";
+            renderer.view.style.display = "block";
+            renderer.autoResize = true;
+            renderer.resize(window.innerWidth, window.innerHeight);
+        }
+
+        function initStage () {
+            stage = new PIXI.Container();
+            //...
+        }
+
+        function initStyles () {
+            var newStyle = document.createElement("style");
+            var style = "* {padding: 0; margin: 0}";
+            newStyle.appendChild(document.createTextNode(style));
+            document.head.appendChild(newStyle);
+        }
+
+        function initAutoScale () {
+            scale = scaleToWindow(renderer.view)
+            window.addEventListener("resize", function(event){
+                scale = scaleToWindow(renderer.view);
+            });
+        }
+    })();
+</script>
+</body>
+</html>
